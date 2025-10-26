@@ -24,8 +24,43 @@
         }
 
         h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
-        .subtitle { font-size: 1.2rem; opacity: 0.9; }
+        .subtitle { font-size: 1.2rem; opacity: 0.9; margin-bottom: 1.5rem; }
         .loading { text-align: center; padding: 4rem 2rem; font-size: 1.5rem; color: #667eea; }
+
+        .form-callout {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem auto 0;
+            max-width: 700px;
+            text-align: center;
+        }
+        
+        .form-callout p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+        }
+        
+        .form-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .form-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
 
         .stats-bar {
             background: white;
@@ -243,9 +278,13 @@
     <div class="header">
         <h1>Grupo Marcelo Murilo<br><span style="font-size: 0.8em; font-weight: 500;">Perfil dos Participantes</span></h1>
         <p class="subtitle">Análise completa da pesquisa realizada com o grupo de conselheiros e executivos em transição</p>
+        <div class="form-callout">
+            <p>📋 Se você ainda não preencheu seu questionário de perfil e não consta destes resultados e do diretório, preencha agora!</p>
+            <a href="https://forms.gle/j9aLnbtxDWuBsW2CA" target="_blank" class="form-button">Preencher Questionário</a>
+        </div>
     </div>
 
-    <div id="loading" class="loading">Carregando dados da planilha...</div>
+    <div id="loading" class="loading">Carregando dados...</div>
 
     <div id="content" style="display: none;">
         <div class="stats-bar">
@@ -564,6 +603,36 @@
             document.getElementById('searchNome').addEventListener('input', filterDirectory);
         }
 
+        function fixLinkedInUrl(url) {
+            if (!url) return '#';
+            
+            // Remove espaços extras
+            url = url.trim();
+            
+            // Se começa com http://, trocar por https://
+            if (url.startsWith('http://')) {
+                return url.replace('http://', 'https://');
+            }
+            
+            // Se já tem https://, retorna como está
+            if (url.startsWith('https://')) {
+                return url;
+            }
+            
+            // Se começa com www.linkedin.com ou linkedin.com, adiciona https://
+            if (url.startsWith('www.linkedin.com') || url.startsWith('linkedin.com')) {
+                return 'https://' + url;
+            }
+            
+            // Se não tem barra (é apenas um username), constrói a URL completa do LinkedIn
+            if (!url.includes('/')) {
+                return 'https://www.linkedin.com/in/' + url;
+            }
+            
+            // Caso contrário, assume que precisa do https://
+            return 'https://' + url;
+        }
+
         function filterDirectory() {
             const estadoFilter = document.getElementById('filterEstado').value.toLowerCase();
             const setorFilter = document.getElementById('filterSetor').value.toLowerCase();
@@ -589,7 +658,7 @@
                 const maisSetores = p.setores.split(',').length > 3 ? ` +${p.setores.split(',').length - 3}` : '';
                 
                 const linkedinLink = p.linkedin ? 
-                    `<a href="${p.linkedin}" target="_blank" class="linkedin-link">
+                    `<a href="${fixLinkedInUrl(p.linkedin)}" target="_blank" class="linkedin-link">
                         <svg class="linkedin-icon" fill="#0077b5" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         Ver Perfil
                     </a>` : 
