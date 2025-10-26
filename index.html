@@ -23,8 +23,8 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
-        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; letter-spacing: -0.02em; }
-        .subtitle { font-size: 1.2rem; opacity: 0.9; font-weight: 300; }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .subtitle { font-size: 1.2rem; opacity: 0.9; }
         .loading { text-align: center; padding: 4rem 2rem; font-size: 1.5rem; color: #667eea; }
 
         .stats-bar {
@@ -44,13 +44,11 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         .stat-label {
             font-size: 0.9rem;
             color: #718096;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
             margin-top: 0.5rem;
         }
 
@@ -61,31 +59,7 @@
             padding: 2.5rem;
             margin-bottom: 2rem;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s ease forwards;
         }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .section:nth-child(1) { animation-delay: 0.1s; }
-        .section:nth-child(2) { animation-delay: 0.2s; }
-        .section:nth-child(3) { animation-delay: 0.3s; }
-        .section:nth-child(4) { animation-delay: 0.4s; }
-        .section:nth-child(5) { animation-delay: 0.5s; }
-        .section:nth-child(6) { animation-delay: 0.6s; }
-        .section:nth-child(7) { animation-delay: 0.7s; }
-        .section:nth-child(8) { animation-delay: 0.8s; }
-        .section:nth-child(9) { animation-delay: 0.9s; }
-        .section:nth-child(10) { animation-delay: 1.0s; }
-        .section:nth-child(11) { animation-delay: 1.1s; }
-        .section:nth-child(12) { animation-delay: 1.2s; }
-        .section:nth-child(13) { animation-delay: 1.3s; }
 
         .section-title {
             font-size: 1.8rem;
@@ -106,7 +80,6 @@
             margin-bottom: 1.5rem;
             border-left: 4px solid #667eea;
             font-size: 1.05rem;
-            color: #2d3748;
         }
 
         .insight strong { color: #667eea; font-weight: 600; }
@@ -122,56 +95,119 @@
             margin-top: 2rem;
         }
 
-        .participants-list {
-            columns: 3;
-            column-gap: 2rem;
-            margin-top: 1.5rem;
-        }
-
-        .participant-name {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e2e8f0;
-            break-inside: avoid;
-            font-size: 0.95rem;
-            color: #2d3748;
-        }
-
-        .highlight-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        /* Estilos do Diretório */
+        .directory-header {
+            background: linear-gradient(135deg, #f6f8fb 0%, #e9ecef 100%);
             padding: 2rem;
             border-radius: 12px;
             margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
         }
 
-        .highlight-card h3 {
-            font-size: 1.5rem;
+        .directory-header h3 {
+            font-size: 1.8rem;
             margin-bottom: 1rem;
+            color: #1a202c;
         }
 
-        .highlight-grid {
+        .directory-header p {
+            font-size: 1.05rem;
+            color: #4a5568;
+        }
+
+        .directory-header .count {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .filters {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .result-count {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .directory-table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 1rem;
         }
 
-        .highlight-item {
-            background: rgba(255,255,255,0.1);
+        .directory-table thead {
+            background: #f7fafc;
+        }
+
+        .directory-table th {
             padding: 1rem;
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
+            text-align: left;
+            font-weight: 600;
+            color: #2d3748;
+            border-bottom: 2px solid #e2e8f0;
         }
 
-        .highlight-item .number {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+        .directory-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
         }
 
-        .highlight-item .label {
-            font-size: 0.9rem;
-            opacity: 0.9;
+        .directory-table tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        .linkedin-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #0077b5;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .linkedin-link:hover {
+            color: #005885;
+        }
+
+        .linkedin-icon {
+            width: 20px;
+            height: 20px;
         }
 
         .update-time {
@@ -194,7 +230,12 @@
             .section-title { font-size: 1.4rem; }
             .grid-2 { grid-template-columns: 1fr; }
             .chart-container { height: 350px; }
-            .participants-list { columns: 1; }
+            .filters { grid-template-columns: 1fr; }
+            
+            .directory-table {
+                display: block;
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
@@ -246,6 +287,7 @@
         };
 
         let allCharts = {};
+        let allParticipants = [];
 
         function countValues(data, column) {
             const counts = {};
@@ -299,14 +341,19 @@
         }
 
         function processAllData(data) {
-            // Extrair nomes
-            const names = data
+            // Preparar dados dos participantes para o diretório
+            allParticipants = data
                 .filter(row => row['Nome completo'])
-                .map(row => String(row['Nome completo']).trim())
-                .sort((a, b) => a.localeCompare(b, 'pt-BR'));
+                .map(row => ({
+                    nome: String(row['Nome completo'] || '').trim(),
+                    estado: String(row['Estado onde você reside'] || '').trim(),
+                    setores: String(row['Quais setores você conhece bem ou já atuou?'] || '').trim(),
+                    linkedin: String(row['URL do seu perfil no LinkedIn'] || '').trim()
+                }))
+                .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
 
             // Stats principais
-            document.getElementById('totalParticipantes').textContent = names.length;
+            document.getElementById('totalParticipantes').textContent = allParticipants.length;
 
             // Processar todos os dados
             const conheceu = countValues(data, 'Como você conheceu este grupo de conselheiros e executivos em transição?');
@@ -318,16 +365,14 @@
             const satisfacao = countValues(data, 'Qual foi seu grau de satisfação com a formação que fez no Brasil (focada em atuação como conselheiro)?');
             const imersao = countValues(data, 'Você já participou de alguma imersão internacional voltada a conselhos, governança ou liderança?');
             const precisa = countMultipleValues(data, 'O que você acredita que mais precisa neste momento para acelerar sua transição para conselhos?');
-            const debatedor = countValues(data, 'Você gostaria de participar como debatedor(a) ou especialista em eventos e conversas temáticas do grupo?');
-            const publica = countValues(data, 'Você já publica conteúdos sobre Governança, Conselhos ou Liderança?');
             const govFamiliar = countValues(data, 'Você já atuou ou tem interesse em atuar com governança de empresas familiares?');
             const dias = countMultipleValues(data, 'Quais dias da semana você tem mais disponibilidade para participar de encontros online com conteúdo sobre conselhos, governança e liderança?');
             const turno = countValues(data, 'Em qual turno você prefere participar desses encontros online?');
 
             // Calcular percentuais
-            const linkedinPct = Math.round(((conheceu['LinkedIn'] || 0) / names.length) * 100);
-            const spPct = Math.round(((estados['São Paulo'] || 0) / names.length) * 100);
-            const semConselhoPct = Math.round(((atuacao['Atuo como executivo(a) e ainda não participo de conselhos'] || 0) / names.length) * 100);
+            const linkedinPct = Math.round(((conheceu['LinkedIn'] || 0) / allParticipants.length) * 100);
+            const spPct = Math.round(((estados['São Paulo'] || 0) / allParticipants.length) * 100);
+            const semConselhoPct = Math.round(((atuacao['Atuo como executivo(a) e ainda não participo de conselhos'] || 0) / allParticipants.length) * 100);
 
             document.getElementById('linkedinPct').textContent = linkedinPct + '%';
             document.getElementById('saoPauloPct').textContent = spPct + '%';
@@ -335,9 +380,9 @@
 
             // Criar todas as seções
             createAllSections({
-                names, conheceu, estados, atuacao, setores, formacao,
-                investimento, satisfacao, imersao, precisa, debatedor,
-                publica, govFamiliar, dias, turno,
+                conheceu, estados, atuacao, setores, formacao,
+                investimento, satisfacao, imersao, precisa,
+                govFamiliar, dias, turno,
                 linkedinPct, spPct, semConselhoPct
             });
 
@@ -359,7 +404,7 @@
             const sections = [
                 {
                     title: '🤝 Como conheceram o grupo',
-                    insight: `<strong>${stats.linkedinPct}% dos participantes</strong> conheceram o grupo através do LinkedIn, demonstrando a força da presença digital e do networking profissional na plataforma. A indicação direta representa ${Math.round(((stats.conheceu['Indicação direta'] || 0) / stats.names.length) * 100)}% das entradas, evidenciando o poder da recomendação pessoal.`,
+                    insight: `<strong>${stats.linkedinPct}% dos participantes</strong> conheceram o grupo através do LinkedIn, demonstrando a força da presença digital e do networking profissional na plataforma.`,
                     chart: createDoughnutChart('conheceuChart', stats.conheceu)
                 },
                 {
@@ -369,18 +414,18 @@
                 },
                 {
                     title: '💼 Atuação Profissional Atual',
-                    insight: `<strong>${stats.semConselhoPct}% são executivos que ainda não participam de conselhos</strong>, representando o maior grupo. ${Math.round(((stats.atuacao['Atuo como executivo(a) e já participo de conselhos'] || 0) / stats.names.length) * 100)}% já atuam como executivos e conselheiros simultaneamente.`,
+                    insight: `<strong>${stats.semConselhoPct}% são executivos que ainda não participam de conselhos</strong>, representando o maior grupo.`,
                     chart: createBarChart('atuacaoChart', stats.atuacao, 0, 'y', true)
                 },
                 {
                     title: '🏢 Setores de Conhecimento e Atuação',
-                    insight: `Os participantes demonstram expertise diversificada em múltiplos setores, com destaque para Serviços e Indústria.`,
+                    insight: `Os participantes demonstram expertise diversificada em múltiplos setores.`,
                     chart: createBarChart('setoresChart', stats.setores, 10, 'y'),
                     tall: true
                 },
                 {
                     title: '🎓 Programas de Formação',
-                    insight: `A variedade de formações indica a busca por conhecimento especializado para atuar em conselhos.`,
+                    insight: `A variedade de formações indica a busca por conhecimento especializado.`,
                     chart: createBarChart('formacaoChart', stats.formacao, 0, 'y')
                 },
                 {
@@ -390,7 +435,7 @@
                 },
                 {
                     title: '⭐ Satisfação com Formação no Brasil',
-                    insight: `Índices gerais positivos de satisfação com as formações oferecidas no mercado brasileiro.`,
+                    insight: `Índices gerais positivos de satisfação com as formações oferecidas.`,
                     chart: createDoughnutChart('satisfacaoChart', stats.satisfacao),
                     short: true
                 },
@@ -402,20 +447,9 @@
                 },
                 {
                     title: '🎯 O que mais precisam agora',
-                    insight: `Além da formação, <strong>conexões e oportunidades práticas são os maiores desafios</strong> da transição.`,
+                    insight: `<strong>Conexões e oportunidades práticas</strong> são os maiores desafios da transição.`,
                     chart: createBarChart('precisaChart', stats.precisa, 0, 'y'),
                     tall: true
-                },
-                {
-                    title: '🎤 Interesse em Participar como Especialista',
-                    insight: `Um grupo <strong>engajado e disposto a compartilhar conhecimento</strong>.`,
-                    chart: createDoughnutChart('debatedorChart', stats.debatedor),
-                    short: true
-                },
-                {
-                    title: '✍️ Publicação de Conteúdo',
-                    insight: `Grande oportunidade para programas de desenvolvimento de autoridade.`,
-                    chart: createBarChart('publicaChart', stats.publica, 0, 'y')
                 },
                 {
                     title: '👨‍👩‍👧‍👦 Interesse em Governança Familiar',
@@ -430,9 +464,8 @@
                     isGrid: true
                 },
                 {
-                    title: '👥 Lista Completa de Participantes',
-                    insight: `Total de <strong>${stats.names.length}</strong> participantes cadastrados, ordenados alfabeticamente.`,
-                    list: createParticipantsList(stats.names)
+                    title: '👥 Diretório de Participantes',
+                    directory: true
                 }
             ];
 
@@ -442,26 +475,135 @@
                 
                 let content = `
                     <h2 class="section-title"><span class="section-icon">${section.title.split(' ')[0]}</span> ${section.title.substring(section.title.indexOf(' ') + 1)}</h2>
-                    <div class="insight">${section.insight}</div>
                 `;
 
-                if (section.list) {
-                    content += section.list;
-                } else if (section.isGrid) {
-                    content += section.chart;
+                if (section.directory) {
+                    content += createDirectory();
                 } else {
-                    const heightClass = section.tall ? 'tall' : section.short ? 'short' : '';
-                    content += `<div class="chart-container ${heightClass}"><canvas id="${section.chart.id}"></canvas></div>`;
+                    content += `<div class="insight">${section.insight}</div>`;
+                    
+                    if (section.isGrid) {
+                        content += section.chart;
+                    } else {
+                        const heightClass = section.tall ? 'tall' : section.short ? 'short' : '';
+                        content += `<div class="chart-container ${heightClass}"><canvas id="${section.chart.id}"></canvas></div>`;
+                    }
                 }
 
                 div.innerHTML = content;
                 container.appendChild(div);
 
-                // Criar gráfico se não for lista ou grid
-                if (section.chart && !section.list && !section.isGrid) {
+                if (section.chart && !section.directory && !section.isGrid) {
                     setTimeout(() => section.chart.create(), 100);
+                } else if (section.directory) {
+                    setTimeout(() => initializeDirectory(), 100);
                 }
             });
+        }
+
+        function createDirectory() {
+            // Extrair estados e setores únicos
+            const estados = [...new Set(allParticipants.map(p => p.estado).filter(e => e))].sort();
+            const todosSetores = new Set();
+            allParticipants.forEach(p => {
+                p.setores.split(',').forEach(s => {
+                    const trimmed = s.trim();
+                    if (trimmed) todosSetores.add(trimmed);
+                });
+            });
+            const setores = [...todosSetores].sort();
+
+            return `
+                <div class="directory-header">
+                    <h3>👥 Diretório de Participantes</h3>
+                    <p>Conecte-se com os <span class="count">${allParticipants.length} profissionais</span> que fazem parte do Grupo Marcelo Murilo. Use os filtros abaixo para encontrar participantes por estado ou área de atuação.</p>
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Filtrar por Estado</label>
+                        <select id="filterEstado">
+                            <option value="">Todos os Estados</option>
+                            ${estados.map(e => `<option value="${e}">${e}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Filtrar por Setor</label>
+                        <select id="filterSetor">
+                            <option value="">Todos os Setores</option>
+                            ${setores.map(s => `<option value="${s}">${s}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Buscar por Nome</label>
+                        <input type="text" id="searchNome" placeholder="Digite o nome...">
+                    </div>
+                </div>
+
+                <div class="result-count" id="resultCount">Mostrando ${allParticipants.length} participantes</div>
+
+                <table class="directory-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Estado</th>
+                            <th>Setores de Conhecimento</th>
+                            <th>LinkedIn</th>
+                        </tr>
+                    </thead>
+                    <tbody id="directoryBody"></tbody>
+                </table>
+            `;
+        }
+
+        function initializeDirectory() {
+            renderDirectory(allParticipants);
+
+            document.getElementById('filterEstado').addEventListener('change', filterDirectory);
+            document.getElementById('filterSetor').addEventListener('change', filterDirectory);
+            document.getElementById('searchNome').addEventListener('input', filterDirectory);
+        }
+
+        function filterDirectory() {
+            const estadoFilter = document.getElementById('filterEstado').value.toLowerCase();
+            const setorFilter = document.getElementById('filterSetor').value.toLowerCase();
+            const nomeFilter = document.getElementById('searchNome').value.toLowerCase();
+
+            const filtered = allParticipants.filter(p => {
+                const matchEstado = !estadoFilter || p.estado.toLowerCase().includes(estadoFilter);
+                const matchSetor = !setorFilter || p.setores.toLowerCase().includes(setorFilter);
+                const matchNome = !nomeFilter || p.nome.toLowerCase().includes(nomeFilter);
+                
+                return matchEstado && matchSetor && matchNome;
+            });
+
+            renderDirectory(filtered);
+        }
+
+        function renderDirectory(participants) {
+            const tbody = document.getElementById('directoryBody');
+            document.getElementById('resultCount').textContent = `Mostrando ${participants.length} participantes`;
+
+            tbody.innerHTML = participants.map(p => {
+                const setoresDisplay = p.setores.split(',').slice(0, 3).join(', ');
+                const maisSetores = p.setores.split(',').length > 3 ? ` +${p.setores.split(',').length - 3}` : '';
+                
+                const linkedinLink = p.linkedin ? 
+                    `<a href="${p.linkedin}" target="_blank" class="linkedin-link">
+                        <svg class="linkedin-icon" fill="#0077b5" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        Ver Perfil
+                    </a>` : 
+                    '-';
+
+                return `
+                    <tr>
+                        <td>${p.nome}</td>
+                        <td>${p.estado || '-'}</td>
+                        <td>${setoresDisplay}${maisSetores}</td>
+                        <td>${linkedinLink}</td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         function createDoughnutChart(id, data) {
@@ -575,10 +717,6 @@
                     </div>
                 </div>
             `;
-        }
-
-        function createParticipantsList(names) {
-            return `<div class="participants-list">${names.map(n => `<div class="participant-name">${n}</div>`).join('')}</div>`;
         }
 
         // Carregar dados
