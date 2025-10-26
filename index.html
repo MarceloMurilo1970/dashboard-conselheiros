@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grupo Marcelo Murilo: Perfil dos Participantes</title>
+    <title>Grupo Marcelo Murilo: Dashboard Completo</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
@@ -27,23 +23,9 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 4rem 2rem;
-            font-size: 1.5rem;
-            color: #667eea;
-        }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .subtitle { font-size: 1.2rem; opacity: 0.9; }
+        .loading { text-align: center; padding: 4rem 2rem; font-size: 1.5rem; color: #667eea; }
 
         .stats-bar {
             background: white;
@@ -55,10 +37,7 @@
             flex-wrap: wrap;
         }
 
-        .stat-item {
-            text-align: center;
-        }
-
+        .stat-item { text-align: center; }
         .stat-number {
             font-size: 3rem;
             font-weight: 700;
@@ -66,7 +45,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .stat-label {
             font-size: 0.9rem;
             color: #718096;
@@ -74,12 +52,7 @@
             margin-top: 0.5rem;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; padding: 3rem 2rem; }
         .section {
             background: white;
             border-radius: 16px;
@@ -95,6 +68,21 @@
             color: #1a202c;
         }
 
+        .insight {
+            background: linear-gradient(135deg, #f6f8fb 0%, #e9ecef 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+            font-size: 1.05rem;
+        }
+
+        .insight strong { color: #667eea; font-weight: 600; }
+
+        .chart-container { position: relative; height: 400px; margin-top: 2rem; }
+        .chart-container.tall { height: 500px; }
+        .chart-container.short { height: 300px; }
+
         .participants-list {
             columns: 3;
             column-gap: 2rem;
@@ -105,6 +93,7 @@
             padding: 0.5rem 0;
             border-bottom: 1px solid #e2e8f0;
             break-inside: avoid;
+            font-size: 0.95rem;
         }
 
         .update-time {
@@ -117,38 +106,23 @@
             margin-top: 1rem;
         }
 
-        .error {
-            color: #e53e3e;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .retry-btn {
-            margin-top: 1rem;
-            padding: 0.75rem 1.5rem;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .retry-btn:hover {
-            background: #5568d3;
-        }
+        .footer { text-align: center; padding: 3rem 2rem; color: #718096; font-size: 0.9rem; }
 
         @media (max-width: 768px) {
-            .participants-list {
-                columns: 1;
-            }
+            h1 { font-size: 1.8rem; }
+            .stats-bar { gap: 1.5rem; }
+            .stat-number { font-size: 2rem; }
+            .section { padding: 1.5rem; }
+            .section-title { font-size: 1.4rem; }
+            .chart-container { height: 350px; }
+            .participants-list { columns: 1; }
         }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>Grupo Marcelo Murilo</h1>
-        <p class="subtitle">Dashboard com Atualização Automática</p>
+        <p class="subtitle">Dashboard Completo com Atualização Automática</p>
     </div>
 
     <div id="loading" class="loading">Carregando dados da planilha...</div>
@@ -156,97 +130,243 @@
     <div id="content" style="display: none;">
         <div class="stats-bar">
             <div class="stat-item">
-                <div class="stat-number" id="total">0</div>
+                <div class="stat-number" id="totalParticipantes">0</div>
                 <div class="stat-label">Participantes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="linkedinPct">0%</div>
+                <div class="stat-label">Via LinkedIn</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="saoPauloPct">0%</div>
+                <div class="stat-label">São Paulo</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="semConselhoPct">0%</div>
+                <div class="stat-label">Ainda sem conselho</div>
             </div>
         </div>
 
         <div class="container">
+            <!-- Como Conheceu -->
+            <div class="section">
+                <h2 class="section-title">🤝 Como conheceram o grupo</h2>
+                <div class="insight" id="conheceuInsight"></div>
+                <div class="chart-container short">
+                    <canvas id="conheceuChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Estados -->
+            <div class="section">
+                <h2 class="section-title">📍 Distribuição Geográfica</h2>
+                <div class="insight" id="estadosInsight"></div>
+                <div class="chart-container">
+                    <canvas id="estadosChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Atuação -->
+            <div class="section">
+                <h2 class="section-title">💼 Atuação Profissional</h2>
+                <div class="insight" id="atuacaoInsight"></div>
+                <div class="chart-container">
+                    <canvas id="atuacaoChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Lista de Participantes -->
             <div class="section">
                 <h2 class="section-title">👥 Lista Completa de Participantes</h2>
-                <p>Total: <strong id="count">0</strong> participantes em ordem alfabética</p>
-                <div id="list" class="participants-list"></div>
+                <div class="insight">
+                    Total de <strong id="participantCount">0</strong> participantes cadastrados, ordenados alfabeticamente.
+                </div>
+                <div id="participantsList" class="participants-list"></div>
             </div>
         </div>
 
-        <div style="text-align: center; padding: 2rem;">
-            <div class="update-time" id="time"></div>
+        <div class="footer">
+            <p><strong>Grupo Marcelo Murilo</strong> • Dashboard com dados em tempo real</p>
+            <div class="update-time" id="updateTime">Carregando...</div>
         </div>
     </div>
 
     <script>
-        // IMPORTANTE: Substitua pela URL da sua API do Google Apps Script
         const API_URL = 'https://script.google.com/macros/s/AKfycbyN-6B0G1xmAeUSCA_ACzMOzYZQ7Xe9pxp1bObwVv3rUHDNDWNQijQcd40utYx3rdXu4w/exec';
+        Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+        Chart.defaults.color = '#2d3748';
+
+        const chartColors = {
+            primary: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b', '#38f9d7', '#fa709a', '#fee140'],
+        };
+
+        let charts = {};
+
+        function countValues(data, column) {
+            const counts = {};
+            data.forEach(row => {
+                const val = row[column];
+                if (val && val.trim()) {
+                    counts[val] = (counts[val] || 0) + 1;
+                }
+            });
+            return counts;
+        }
 
         async function loadData() {
             try {
-                console.log('🔄 Buscando dados da API...');
-                
                 const response = await fetch(API_URL);
-                
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
                 const data = await response.json();
-                console.log('✅ Dados recebidos:', data.length, 'registros');
                 
-                // Buscar a coluna de nome
-                const nameColumn = Object.keys(data[0] || {}).find(key => 
-                    key.toLowerCase().includes('nome completo') || 
-                    key.toLowerCase().includes('nome')
-                ) || 'Nome completo';
-                
-                console.log('📋 Coluna de nome:', nameColumn);
-                
+                // Extrair nomes
                 const names = data
-                    .filter(row => row[nameColumn] && String(row[nameColumn]).trim())
-                    .map(row => String(row[nameColumn]).trim())
+                    .filter(row => row['Nome completo'])
+                    .map(row => row['Nome completo'].trim())
                     .sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
-                console.log('✅ Nomes processados:', names.length);
+                // Estatísticas principais
+                document.getElementById('totalParticipantes').textContent = names.length;
+                document.getElementById('participantCount').textContent = names.length;
 
-                // Atualizar interface
-                document.getElementById('total').textContent = names.length;
-                document.getElementById('count').textContent = names.length;
-                document.getElementById('list').innerHTML = names
-                    .map(n => `<div class="participant-name">${n}</div>`)
-                    .join('');
-                
+                // Como conheceu
+                const conheceu = countValues(data, 'Como você conheceu este grupo de conselheiros e executivos em transição?');
+                const linkedinCount = conheceu['LinkedIn'] || 0;
+                const linkedinPct = Math.round((linkedinCount / names.length) * 100);
+                document.getElementById('linkedinPct').textContent = linkedinPct + '%';
+                document.getElementById('conheceuInsight').innerHTML = `<strong>${linkedinPct}% dos participantes</strong> conheceram o grupo através do LinkedIn, demonstrando a força da presença digital e do networking profissional na plataforma.`;
+
+                // Estados
+                const estados = countValues(data, 'Estado onde você reside');
+                const spCount = estados['São Paulo'] || 0;
+                const spPct = Math.round((spCount / names.length) * 100);
+                document.getElementById('saoPauloPct').textContent = spPct + '%';
+                document.getElementById('estadosInsight').innerHTML = `São Paulo domina com <strong>${spPct}% dos participantes</strong>, seguido por outros estados estratégicos.`;
+
+                // Atuação
+                const atuacao = countValues(data, 'Hoje, qual das opções melhor descreve sua atuação principal?');
+                const semConselho = atuacao['Atuo como executivo(a) e ainda não participo de conselhos'] || 0;
+                const semConselhoPct = Math.round((semConselho / names.length) * 100);
+                document.getElementById('semConselhoPct').textContent = semConselhoPct + '%';
+                document.getElementById('atuacaoInsight').innerHTML = `<strong>${semConselhoPct}% são executivos que ainda não participam de conselhos</strong>, representando o maior grupo e um potencial significativo de transição.`;
+
+                // Criar gráficos
+                createCharts({ conheceu, estados, atuacao, names });
+
+                // Horário de atualização
                 const now = new Date().toLocaleString('pt-BR', {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
+                    day: '2-digit', month: 'long', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
                 });
-                document.getElementById('time').textContent = `Atualizado em: ${now}`;
-                
+                document.getElementById('updateTime').textContent = `Última atualização: ${now}`;
+
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('content').style.display = 'block';
-                
+
             } catch (error) {
-                console.error('❌ Erro completo:', error);
+                console.error('Erro:', error);
                 document.getElementById('loading').innerHTML = `
-                    <div class="error">
-                        <h2>⚠️ Erro ao carregar dados</h2>
-                        <p>${error.message}</p>
-                        <p style="font-size: 0.9rem; margin-top: 1rem;">
-                            Este arquivo precisa ser hospedado em um servidor web.<br>
-                            Não funciona no Claude Artifacts devido a restrições de segurança.
-                        </p>
-                        <button class="retry-btn" onclick="loadData()">
-                            🔄 Tentar Novamente
+                    <div style="color: #e53e3e;">
+                        Erro ao carregar dados<br>
+                        <small>${error.message}</small><br>
+                        <button onclick="loadData()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                            Tentar Novamente
                         </button>
                     </div>
                 `;
             }
         }
 
-        // Carregar dados ao iniciar
-        loadData();
+        function createCharts({ conheceu, estados, atuacao, names }) {
+            // Gráfico: Como Conheceu
+            if (charts.conheceu) charts.conheceu.destroy();
+            charts.conheceu = new Chart(document.getElementById('conheceuChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(conheceu),
+                    datasets: [{
+                        data: Object.values(conheceu),
+                        backgroundColor: chartColors.primary,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const pct = ((context.parsed / total) * 100).toFixed(1);
+                                    return `${context.label}: ${context.parsed} (${pct}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
 
-        // Atualizar automaticamente a cada 5 minutos
+            // Gráfico: Estados (top 10)
+            const topEstados = Object.entries(estados)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+            
+            if (charts.estados) charts.estados.destroy();
+            charts.estados = new Chart(document.getElementById('estadosChart'), {
+                type: 'bar',
+                data: {
+                    labels: topEstados.map(e => e[0]),
+                    datasets: [{
+                        label: 'Participantes',
+                        data: topEstados.map(e => e[1]),
+                        backgroundColor: '#667eea',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: { x: { grid: { display: false } } }
+                }
+            });
+
+            // Gráfico: Atuação
+            if (charts.atuacao) charts.atuacao.destroy();
+            charts.atuacao = new Chart(document.getElementById('atuacaoChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(atuacao).map(l => l.length > 50 ? l.substring(0, 50) + '...' : l),
+                    datasets: [{
+                        label: 'Participantes',
+                        data: Object.values(atuacao),
+                        backgroundColor: '#764ba2',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: { x: { grid: { display: false } } }
+                }
+            });
+
+            // Lista de participantes
+            document.getElementById('participantsList').innerHTML = names
+                .map(n => `<div class="participant-name">${n}</div>`)
+                .join('');
+        }
+
+        // Carregar dados
+        loadData();
+        
+        // Atualizar a cada 5 minutos
         setInterval(loadData, 5 * 60 * 1000);
     </script>
 </body>
