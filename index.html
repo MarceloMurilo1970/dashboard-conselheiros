@@ -79,7 +79,7 @@
 
         .loading { text-align: center; padding: 4rem 2rem; font-size: 1.5rem; color: #667eea; }
 
-        /* Statistics Section - Estilo da imagem */
+        /* Statistics Section */
         .stats-bar {
             background: white;
             border-radius: 20px;
@@ -289,7 +289,7 @@
             margin-top: 1rem;
         }
 
-        /* Footer - Estilo da imagem */
+        /* Footer */
         .footer {
             background: white;
             text-align: center;
@@ -308,6 +308,7 @@
         .footer-text {
             font-size: 0.85rem;
             color: #666;
+            margin-bottom: 1rem;
         }
 
         @media (max-width: 768px) {
@@ -355,152 +356,187 @@
                 <span class="stats-icon-title">📊</span>
                 Estatísticas do Grupo
             </h2>
-            <div class="stats-grid" id="statsGrid"></div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-icon">👥</span>
+                    <div class="stat-number" id="totalParticipantes">0</div>
+                    <div class="stat-label">Participantes Cadastrados</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">💼</span>
+                    <div class="stat-number" id="linkedinPct">0%</div>
+                    <div class="stat-label">Conectados via LinkedIn*</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">📍</span>
+                    <div class="stat-number" id="saoPauloPct">0%</div>
+                    <div class="stat-label">Baseados em São Paulo*</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">🎯</span>
+                    <div class="stat-number" id="semConselhoPct">0%</div>
+                    <div class="stat-label">Em Transição para Conselhos*</div>
+                </div>
+            </div>
             <p class="stats-note">* Percentuais referentes aos participantes cadastrados no diretório</p>
         </div>
 
-        <div class="container" id="chartsContainer"></div>
+        <div class="container" id="sections"></div>
 
         <div class="footer">
             <img src="Logo_Preto_2.png" alt="Marcelo Murilo" class="footer-logo">
-            <p class="footer-text">© 2025 Marcelo Murilo - Grupo de Discussão em Governança Corporativa</p>
+            <p class="footer-text"><strong>Grupo Marcelo Murilo</strong> • Grupo de Discussão em Governança Corporativa</p>
+            <div class="update-time" id="updateTime">Carregando...</div>
+            <p class="footer-text" style="margin-top: 1rem; opacity: 0.7;">Dados atualizados automaticamente da planilha Google</p>
         </div>
     </div>
 
     <script>
-        const SHEET_ID = '1oMC_-d2X_xeaT9FHnVYj5oTCApUvLCZo1ZqwGBX5_Lg';
-        const allCharts = {};
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyN-6B0G1xmAeUSCA_ACzMOzYZQ7Xe9pxp1bObwVv3rUHDNDWNQijQcd40utYx3rdXu4w/exec';
+        
+        Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+        Chart.defaults.color = '#2d3748';
+        
         const chartColors = {
-            primary: [
-                '#667eea', '#764ba2', '#f093fb', '#4facfe',
-                '#43e97b', '#fa709a', '#fee140', '#30cfd0'
-            ]
+            primary: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b', '#38f9d7', '#fa709a', '#fee140'],
         };
+
+        let allCharts = {};
+
+        function countValues(data, column) {
+            const counts = {};
+            data.forEach(row => {
+                const val = row[column];
+                if (val && String(val).trim()) {
+                    counts[String(val).trim()] = (counts[String(val).trim()] || 0) + 1;
+                }
+            });
+            return counts;
+        }
+
+        function countMultipleValues(data, column, separator = ',') {
+            const counts = {};
+            data.forEach(row => {
+                const val = row[column];
+                if (val && String(val).trim()) {
+                    String(val).split(separator).forEach(item => {
+                        const trimmed = item.trim();
+                        if (trimmed) {
+                            counts[trimmed] = (counts[trimmed] || 0) + 1;
+                        }
+                    });
+                }
+            });
+            return counts;
+        }
 
         async function loadData() {
             try {
-                const response = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`);
-                const text = await response.text();
-                const json = JSON.parse(text.substring(47).slice(0, -2));
-                processData(json.table);
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                console.log('Dados carregados:', data.length, 'registros');
+                
+                processAllData(data);
+
             } catch (error) {
-                document.getElementById('loading').innerHTML = '⚠️ Erro ao carregar dados. Tentando novamente...';
-                setTimeout(loadData, 5000);
+                console.error('Erro:', error);
+                document.getElementById('loading').innerHTML = `
+                    <div style="color: #e53e3e;">
+                        ⚠️ Erro ao carregar dados<br>
+                        <small>${error.message}</small><br>
+                        <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem;">
+                            🔄 Tentar Novamente
+                        </button>
+                    </div>
+                `;
             }
         }
 
-        function processData(table) {
-            const data = table.rows.map(row => row.c.map(cell => cell ? cell.v : null));
-            const stats = {
-                total: data.length,
-                localizacao: {},
-                linkedinConectado: { 'Sim': 0, 'Não': 0 },
-                emTransicao: { 'Sim': 0, 'Não': 0 },
-                experiencia: {},
-                industrias: {},
-                formacao: {},
-                investimento: {},
-                satisfacao: {},
-                imersao: {},
-                precisa: {},
-                debatedor: {},
-                publica: {},
-                govFamiliar: {},
-                dias: {},
-                turno: {},
-                names: []
-            };
+        function processAllData(data) {
+            // Extrair nomes
+            const names = data
+                .filter(row => row['Nome completo'])
+                .map(row => String(row['Nome completo']).trim())
+                .sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
-            data.forEach(row => {
-                const cidade = row[4];
-                if (cidade) stats.localizacao[cidade] = (stats.localizacao[cidade] || 0) + 1;
+            // Stats principais
+            document.getElementById('totalParticipantes').textContent = names.length;
 
-                const linkedin = row[5];
-                if (linkedin === 'Sim' || linkedin === 'Já estamos conectados') stats.linkedinConectado['Sim']++;
-                else if (linkedin === 'Não') stats.linkedinConectado['Não']++;
+            // Processar todos os dados
+            const conheceu = countValues(data, 'Como você conheceu este grupo de conselheiros e executivos em transição?');
+            const estados = countValues(data, 'Estado onde você reside');
+            const atuacao = countValues(data, 'Hoje, qual das opções melhor descreve sua atuação principal?');
+            const setores = countMultipleValues(data, 'Quais setores você conhece bem ou já atuou?');
+            const formacao = countValues(data, 'Você já participou de algum dos seguintes programas de formação para conselheiros?');
+            const investimento = countValues(data, 'Quanto você estima que já investiu até agora em formação específica para atuar em conselhos?');
+            const satisfacao = countValues(data, 'Qual foi seu grau de satisfação com a formação que fez no Brasil (focada em atuação como conselheiro)?');
+            const imersao = countValues(data, 'Você já participou de alguma imersão internacional voltada a conselhos, governança ou liderança?');
+            const precisa = countMultipleValues(data, 'O que você acredita que mais precisa neste momento para acelerar sua transição para conselhos?');
+            const debatedor = countValues(data, 'Você gostaria de participar como debatedor(a) ou especialista em eventos e conversas temáticas do grupo?');
+            const publica = countValues(data, 'Você já publica conteúdos sobre Governança, Conselhos ou Liderança?');
+            const govFamiliar = countValues(data, 'Você já atuou ou tem interesse em atuar com governança de empresas familiares?');
+            const dias = countMultipleValues(data, 'Quais dias da semana você tem mais disponibilidade para participar de encontros online com conteúdo sobre conselhos, governança e liderança?');
+            const turno = countValues(data, 'Em qual turno você prefere participar desses encontros online?');
 
-                const transicao = row[6];
-                if (transicao === 'Sim') stats.emTransicao['Sim']++;
-                else if (transicao === 'Não') stats.emTransicao['Não']++;
+            // Calcular percentuais
+            const linkedinPct = Math.round(((conheceu['LinkedIn'] || 0) / names.length) * 100);
+            const spPct = Math.round(((estados['São Paulo'] || 0) / names.length) * 100);
+            const semConselhoPct = Math.round(((atuacao['Atuo como executivo(a) e ainda não participo de conselhos'] || 0) / names.length) * 100);
 
-                if (row[7]) stats.experiencia[row[7]] = (stats.experiencia[row[7]] || 0) + 1;
-                if (row[8]) row[8].split(',').forEach(i => stats.industrias[i.trim()] = (stats.industrias[i.trim()] || 0) + 1);
-                if (row[9]) row[9].split(',').forEach(f => stats.formacao[f.trim()] = (stats.formacao[f.trim()] || 0) + 1);
-                if (row[10]) stats.investimento[row[10]] = (stats.investimento[row[10]] || 0) + 1;
-                if (row[11]) stats.satisfacao[row[11]] = (stats.satisfacao[row[11]] || 0) + 1;
-                if (row[12]) stats.imersao[row[12]] = (stats.imersao[row[12]] || 0) + 1;
-                if (row[13]) row[13].split(',').forEach(p => stats.precisa[p.trim()] = (stats.precisa[p.trim()] || 0) + 1);
-                if (row[14]) stats.debatedor[row[14]] = (stats.debatedor[row[14]] || 0) + 1;
-                if (row[15]) stats.publica[row[15]] = (stats.publica[row[15]] || 0) + 1;
-                if (row[16]) stats.govFamiliar[row[16]] = (stats.govFamiliar[row[16]] || 0) + 1;
-                if (row[17]) row[17].split(',').forEach(d => stats.dias[d.trim()] = (stats.dias[d.trim()] || 0) + 1);
-                if (row[18]) stats.turno[row[18]] = (stats.turno[row[18]] || 0) + 1;
-                if (row[1]) stats.names.push(row[1]);
+            document.getElementById('linkedinPct').textContent = linkedinPct + '%';
+            document.getElementById('saoPauloPct').textContent = spPct + '%';
+            document.getElementById('semConselhoPct').textContent = semConselhoPct + '%';
+
+            // Criar todas as seções
+            createAllSections({
+                names, conheceu, estados, atuacao, setores, formacao,
+                investimento, satisfacao, imersao, precisa, debatedor,
+                publica, govFamiliar, dias, turno,
+                linkedinPct, spPct, semConselhoPct
             });
 
-            stats.names.sort();
-            renderDashboard(stats);
-        }
+            // Horário de atualização
+            const now = new Date().toLocaleString('pt-BR', {
+                day: '2-digit', month: 'long', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+            document.getElementById('updateTime').textContent = `Última atualização: ${now}`;
 
-        function renderDashboard(stats) {
             document.getElementById('loading').style.display = 'none';
             document.getElementById('content').style.display = 'block';
+        }
 
-            const spCount = stats.localizacao['São Paulo'] || 0;
-            const spPercentage = Math.round((spCount / stats.total) * 100);
-            const linkedinPercentage = Math.round((stats.linkedinConectado['Sim'] / stats.total) * 100);
-
-            // Total do grupo (assumindo 940 participantes como na imagem)
-            const totalGrupo = 940;
-
-            // Renderizar estatísticas principais com estilo da imagem
-            const statsGrid = document.getElementById('statsGrid');
-            statsGrid.innerHTML = `
-                <div class="stat-item">
-                    <span class="stat-icon">👥</span>
-                    <span class="stat-number">${totalGrupo}</span>
-                    <span class="stat-label">Participantes do Grupo</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-icon">📝</span>
-                    <span class="stat-number">${stats.total}</span>
-                    <span class="stat-label">Participantes Cadastrados</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-icon">💼</span>
-                    <span class="stat-number">${linkedinPercentage}%</span>
-                    <span class="stat-label">Conectados via LinkedIn*</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-icon">📍</span>
-                    <span class="stat-number">${spPercentage}%</span>
-                    <span class="stat-label">Baseados em São Paulo*</span>
-                </div>
-            `;
-
-            const container = document.getElementById('chartsContainer');
+        function createAllSections(stats) {
+            const container = document.getElementById('sections');
             container.innerHTML = '';
 
             const sections = [
                 {
+                    title: '🤝 Como conheceram o grupo',
+                    insight: `<strong>${stats.linkedinPct}% dos participantes</strong> conheceram o grupo através do LinkedIn, demonstrando a força da presença digital e do networking profissional na plataforma. A indicação direta representa ${Math.round(((stats.conheceu['Indicação direta'] || 0) / stats.names.length) * 100)}% das entradas, evidenciando o poder da recomendação pessoal.`,
+                    chart: createDoughnutChart('conheceuChart', stats.conheceu)
+                },
+                {
                     title: '📍 Distribuição Geográfica',
-                    insight: `A maior concentração está em <strong>São Paulo (${spPercentage}%)</strong>, seguida por outras capitais brasileiras.`,
-                    chart: createBarChart('localizacaoChart', stats.localizacao, 10, 'y')
+                    insight: `São Paulo domina com <strong>${stats.spPct}% dos participantes</strong>, seguido por outros estados estratégicos.`,
+                    chart: createBarChart('estadosChart', stats.estados, 10, 'y')
                 },
                 {
-                    title: '💼 Experiência Profissional',
-                    insight: `Grupo com <strong>alta senioridade e experiência executiva relevante</strong> para atuação em conselhos.`,
-                    chart: createDoughnutChart('experienciaChart', stats.experiencia),
-                    short: true
+                    title: '💼 Atuação Profissional Atual',
+                    insight: `<strong>${stats.semConselhoPct}% são executivos que ainda não participam de conselhos</strong>, representando o maior grupo. ${Math.round(((stats.atuacao['Atuo como executivo(a) e já participo de conselhos'] || 0) / stats.names.length) * 100)}% já atuam como executivos e conselheiros simultaneamente.`,
+                    chart: createBarChart('atuacaoChart', stats.atuacao, 0, 'y', true)
                 },
                 {
-                    title: '🏭 Indústrias de Atuação',
-                    insight: `Diversidade setorial que favorece <strong>troca de experiências cross-industry</strong>.`,
-                    chart: createBarChart('industriasChart', stats.industrias, 10, 'y')
+                    title: '🏢 Setores de Conhecimento e Atuação',
+                    insight: `Os participantes demonstram expertise diversificada em múltiplos setores, com destaque para Serviços e Indústria.`,
+                    chart: createBarChart('setoresChart', stats.setores, 10, 'y'),
+                    tall: true
                 },
                 {
-                    title: '🎓 Formações Realizadas',
-                    insight: `Participantes já investiram em formações, demonstrando comprometimento com a carreira em conselhos.`,
+                    title: '🎓 Programas de Formação',
+                    insight: `A variedade de formações indica a busca por conhecimento especializado para atuar em conselhos.`,
                     chart: createBarChart('formacaoChart', stats.formacao, 0, 'y')
                 },
                 {
@@ -577,6 +613,7 @@
                 div.innerHTML = content;
                 container.appendChild(div);
 
+                // Criar gráfico se não for lista ou grid
                 if (section.chart && !section.list && !section.isGrid) {
                     setTimeout(() => section.chart.create(), 100);
                 }
@@ -700,7 +737,10 @@
             return `<div class="participants-list">${names.map(n => `<div class="participant-name">${n}</div>`).join('')}</div>`;
         }
 
+        // Carregar dados
         loadData();
+        
+        // Atualizar a cada 5 minutos
         setInterval(loadData, 5 * 60 * 1000);
     </script>
 </body>
