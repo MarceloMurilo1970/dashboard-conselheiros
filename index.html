@@ -516,8 +516,11 @@
 
         // Função para normalizar nome de categoria
         function normalizeCategory(category) {
+            if (!category || !category.trim()) return '';
+            
             const normalized = normalizeString(category);
-            // Criar um mapa de categorias normalizadas para sua versão capitalizada
+            
+            // Mapa completo de categorias normalizadas para sua versão capitalizada correta
             const categoryMap = {
                 'logistica': 'Logística',
                 'tecnologia': 'Tecnologia',
@@ -545,10 +548,66 @@
                 'metalurgico': 'Metalúrgico',
                 'textil': 'Têxtil',
                 'papel': 'Papel',
-                'celulose': 'Celulose'
+                'celulose': 'Celulose',
+                'ti': 'TI',
+                'rh': 'RH',
+                'marketing': 'Marketing',
+                'vendas': 'Vendas',
+                'operacoes': 'Operações',
+                'juridico': 'Jurídico',
+                'compliance': 'Compliance',
+                'auditoria': 'Auditoria',
+                'contabilidade': 'Contabilidade',
+                'financeiro': 'Financeiro',
+                'comercial': 'Comercial',
+                'industrial': 'Industrial',
+                'producao': 'Produção',
+                'qualidade': 'Qualidade',
+                'supply chain': 'Supply Chain',
+                'suprimentos': 'Suprimentos',
+                'compras': 'Compras',
+                'vendas': 'Vendas',
+                'pos-vendas': 'Pós-vendas',
+                'customer success': 'Customer Success',
+                'atendimento': 'Atendimento',
+                'call center': 'Call Center',
+                'sac': 'SAC',
+                'facilities': 'Facilities',
+                'predial': 'Predial',
+                'manutencao': 'Manutenção',
+                'engenharia': 'Engenharia',
+                'projetos': 'Projetos',
+                'pesquisa': 'Pesquisa',
+                'desenvolvimento': 'Desenvolvimento',
+                'inovacao': 'Inovação',
+                'p&d': 'P&D',
+                'design': 'Design',
+                'ux': 'UX',
+                'ui': 'UI',
+                'produto': 'Produto',
+                'agronegocio': 'Agronegócio',
+                'mineracao': 'Mineração',
+                'petroleo': 'Petróleo',
+                'gas': 'Gás',
+                'oleo': 'Óleo',
+                'bancario': 'Bancário',
+                'financeiro': 'Financeiro',
+                'credito': 'Crédito',
+                'investimentos': 'Investimentos',
+                'mercado de capitais': 'Mercado de Capitais',
+                'private equity': 'Private Equity',
+                'venture capital': 'Venture Capital',
+                'startups': 'Startups',
+                'scale-ups': 'Scale-ups',
+                'terceiro setor': 'Terceiro Setor',
+                'ongs': 'ONGs',
+                'governo': 'Governo',
+                'publico': 'Público',
+                'administracao publica': 'Administração Pública',
+                'setor publico': 'Setor Público'
             };
 
-            return categoryMap[normalized] || capitalize(category);
+            return categoryMap[normalized] || category.trim();
         }
 
         function countValues(data, column) {
