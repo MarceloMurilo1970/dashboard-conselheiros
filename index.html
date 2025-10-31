@@ -13,16 +13,18 @@
             background: #f0f2f5;
             color: #333;
             line-height: 1.6;
+            padding: 2rem 1rem;
         }
 
         /* Header Section com Logo e Tags */
         .header {
-            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+            background: white;
             padding: 3rem 2rem 2.5rem;
             text-align: center;
-            border-radius: 0 0 24px 24px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 16px;
+            margin: 0 auto 2rem;
+            max-width: 1400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
         .logo-container {
@@ -82,11 +84,11 @@
         /* Statistics Section */
         .stats-bar {
             background: white;
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 3rem 2rem;
-            margin: 0 auto 3rem;
-            max-width: 1200px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin: 0 auto 2rem;
+            max-width: 1400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
         .stats-title {
@@ -158,7 +160,7 @@
             margin-top: 1.5rem;
         }
 
-        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0; }
         
         .section {
             background: white;
@@ -190,6 +192,7 @@
         .section:nth-child(10) { animation-delay: 1.0s; }
         .section:nth-child(11) { animation-delay: 1.1s; }
         .section:nth-child(12) { animation-delay: 1.2s; }
+        .section:nth-child(13) { animation-delay: 1.3s; }
 
         .section-title {
             font-size: 1.8rem;
@@ -392,8 +395,10 @@
             background: white;
             text-align: center;
             padding: 2rem;
-            margin-top: 3rem;
-            border-top: 1px solid #e8ecf0;
+            margin: 2rem auto 0;
+            max-width: 1400px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
         .footer-logo {
@@ -410,6 +415,7 @@
         }
 
         @media (max-width: 768px) {
+            body { padding: 1rem 0.5rem; }
             h1 { font-size: 2rem; }
             .subtitle { font-size: 1.2rem; }
             .stats-grid { grid-template-columns: 1fr; }
@@ -506,51 +512,100 @@
 
         // Função para normalizar strings (remove acentos e converte para lowercase)
         function normalizeString(str) {
+            if (!str) return '';
             return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
         }
 
-        // Função para capitalizar primeira letra
-        function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        // Função para normalizar URL do LinkedIn
+        function normalizeLinkedInUrl(url) {
+            if (!url || !String(url).trim()) return '';
+            
+            const urlStr = String(url).trim();
+            
+            // Se já começa com https://, retorna como está
+            if (urlStr.startsWith('https://')) {
+                return urlStr;
+            }
+            
+            // Se começa com http://, substitui por https://
+            if (urlStr.startsWith('http://')) {
+                return urlStr.replace('http://', 'https://');
+            }
+            
+            // Se começa com www., adiciona https://
+            if (urlStr.startsWith('www.')) {
+                return 'https://' + urlStr;
+            }
+            
+            // Se começa com linkedin.com, adiciona https://www.
+            if (urlStr.startsWith('linkedin.com')) {
+                return 'https://www.' + urlStr;
+            }
+            
+            // Se parece ser apenas o username (sem barras ou pontos no início)
+            // assume que é linkedin.com/in/username
+            if (!urlStr.includes('/') && !urlStr.includes('.')) {
+                return 'https://www.linkedin.com/in/' + urlStr;
+            }
+            
+            // Se contém linkedin.com mas não tem protocolo
+            if (urlStr.includes('linkedin.com')) {
+                return 'https://' + urlStr.replace(/^\/+/, '');
+            }
+            
+            // Caso padrão: assume que é um username
+            return 'https://www.linkedin.com/in/' + urlStr;
         }
 
         // Função para normalizar nome de categoria
         function normalizeCategory(category) {
-            if (!category || !category.trim()) return '';
+            if (!category || !String(category).trim()) return '';
             
-            const normalized = normalizeString(category);
+            const normalized = normalizeString(String(category));
             
-            // Mapa completo de categorias normalizadas para sua versão capitalizada correta
+            // Mapa extenso de categorias normalizadas
             const categoryMap = {
                 'logistica': 'Logística',
                 'tecnologia': 'Tecnologia',
+                'ti': 'TI',
+                'tecnologia da informacao': 'Tecnologia da Informação',
                 'financas': 'Finanças',
+                'financeiro': 'Financeiro',
                 'saude': 'Saúde',
                 'educacao': 'Educação',
                 'agricultura': 'Agricultura',
+                'agronegocio': 'Agronegócio',
                 'industria': 'Indústria',
+                'industrial': 'Industrial',
                 'servicos': 'Serviços',
                 'comercio': 'Comércio',
+                'comercial': 'Comercial',
                 'construcao': 'Construção',
+                'construcao civil': 'Construção Civil',
                 'energia': 'Energia',
                 'telecom': 'Telecom',
+                'telecomunicacoes': 'Telecomunicações',
                 'midia': 'Mídia',
+                'comunicacao': 'Comunicação',
                 'seguros': 'Seguros',
                 'imobiliario': 'Imobiliário',
                 'automotivo': 'Automotivo',
                 'varejo': 'Varejo',
                 'consultoria': 'Consultoria',
                 'transporte': 'Transporte',
+                'transportes': 'Transportes',
                 'alimentos': 'Alimentos',
+                'alimentos e bebidas': 'Alimentos e Bebidas',
                 'bebidas': 'Bebidas',
                 'quimico': 'Químico',
                 'farmaceutico': 'Farmacêutico',
                 'metalurgico': 'Metalúrgico',
                 'textil': 'Têxtil',
                 'papel': 'Papel',
+                'papel e celulose': 'Papel e Celulose',
                 'celulose': 'Celulose',
-                'ti': 'TI',
                 'rh': 'RH',
+                'recursos humanos': 'Recursos Humanos',
                 'marketing': 'Marketing',
                 'vendas': 'Vendas',
                 'operacoes': 'Operações',
@@ -558,15 +613,11 @@
                 'compliance': 'Compliance',
                 'auditoria': 'Auditoria',
                 'contabilidade': 'Contabilidade',
-                'financeiro': 'Financeiro',
-                'comercial': 'Comercial',
-                'industrial': 'Industrial',
                 'producao': 'Produção',
                 'qualidade': 'Qualidade',
                 'supply chain': 'Supply Chain',
                 'suprimentos': 'Suprimentos',
                 'compras': 'Compras',
-                'vendas': 'Vendas',
                 'pos-vendas': 'Pós-vendas',
                 'customer success': 'Customer Success',
                 'atendimento': 'Atendimento',
@@ -581,17 +632,17 @@
                 'desenvolvimento': 'Desenvolvimento',
                 'inovacao': 'Inovação',
                 'p&d': 'P&D',
+                'pesquisa e desenvolvimento': 'Pesquisa e Desenvolvimento',
                 'design': 'Design',
                 'ux': 'UX',
                 'ui': 'UI',
                 'produto': 'Produto',
-                'agronegocio': 'Agronegócio',
                 'mineracao': 'Mineração',
                 'petroleo': 'Petróleo',
                 'gas': 'Gás',
                 'oleo': 'Óleo',
+                'oleo e gas': 'Óleo e Gás',
                 'bancario': 'Bancário',
-                'financeiro': 'Financeiro',
                 'credito': 'Crédito',
                 'investimentos': 'Investimentos',
                 'mercado de capitais': 'Mercado de Capitais',
@@ -607,7 +658,7 @@
                 'setor publico': 'Setor Público'
             };
 
-            return categoryMap[normalized] || category.trim();
+            return categoryMap[normalized] || String(category).trim();
         }
 
         function countValues(data, column) {
@@ -672,12 +723,16 @@
                     const setoresNormalizados = setores ? 
                         setores.split(',').map(s => normalizeCategory(s.trim())).filter(s => s).join(', ') : '';
 
+                    // Buscar LinkedIn no campo correto e normalizar a URL
+                    const linkedinRaw = String(row['URL do seu perfil no LinkedIn'] || '').trim();
+                    const linkedin = normalizeLinkedInUrl(linkedinRaw);
+
                     return {
                         nome: String(row['Nome completo']).trim(),
                         nomeNormalizado: normalizeString(String(row['Nome completo']).trim()),
                         estado: String(row['Estado onde você reside'] || '').trim(),
                         setores: setoresNormalizados,
-                        linkedin: String(row['Seu perfil no LinkedIn (cole o link completo)'] || '').trim()
+                        linkedin: linkedin
                     };
                 })
                 .sort((a, b) => a.nomeNormalizado.localeCompare(b.nomeNormalizado, 'pt-BR'));
