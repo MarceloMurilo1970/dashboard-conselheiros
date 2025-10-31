@@ -3,104 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grupo Marcelo Murilo: Perfil dos Participantes</title>
+    <title>Grupo de Discussão Marcelo Murilo</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
-            color: #2d3748;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
             line-height: 1.6;
         }
 
-        .header {
-            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-
-        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
-        .subtitle { font-size: 1.2rem; opacity: 0.9; margin-bottom: 1.5rem; }
-        .loading { text-align: center; padding: 4rem 2rem; font-size: 1.5rem; color: #667eea; }
-
-        .form-callout {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1.5rem auto 0;
-            max-width: 700px;
+        /* Header Section */
+        .hero-section {
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 4rem 2rem 3rem;
             text-align: center;
         }
-        
-        .form-callout p {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            opacity: 0.95;
-        }
-        
-        .form-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 0.9rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .form-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+
+        .logo-container {
+            margin-bottom: 2rem;
         }
 
-        .stats-bar {
-            background: white;
-            padding: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            flex-wrap: wrap;
+        .logo {
+            max-width: 300px;
+            height: auto;
         }
 
-        .stat-item { text-align: center; }
-        .stat-number {
+        .main-title {
             font-size: 3rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .stat-label {
-            font-size: 0.9rem;
-            color: #718096;
-            text-transform: uppercase;
-            margin-top: 0.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
         }
 
-        .container { max-width: 1400px; margin: 0 auto; padding: 3rem 2rem; }
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #34495e;
+            margin-bottom: 1.5rem;
+        }
+
+        .description {
+            max-width: 900px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #5a6c7d;
+        }
+
+        /* Tags/Badges */
+        .tags-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .tag {
+            background: #4a5568;
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: #2d3748;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Statistics Section */
+        .stats-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: -2rem auto 3rem;
+            max-width: 1200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .stats-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .stats-icon {
+            font-size: 2.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid #e8ecf0;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+        }
+
+        .stat-card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-card-label {
+            font-size: 0.9rem;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        /* Loading */
+        .loading { 
+            text-align: center; 
+            padding: 4rem 2rem; 
+            font-size: 1.5rem; 
+            color: #667eea; 
+        }
+
+        /* Main Container */
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 2rem; 
+        }
+
         .section {
             background: white;
             border-radius: 16px;
             padding: 2.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
         }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+        .section:nth-child(7) { animation-delay: 0.7s; }
+        .section:nth-child(8) { animation-delay: 0.8s; }
+        .section:nth-child(9) { animation-delay: 0.9s; }
+        .section:nth-child(10) { animation-delay: 1.0s; }
+        .section:nth-child(11) { animation-delay: 1.1s; }
+        .section:nth-child(12) { animation-delay: 1.2s; }
+        .section:nth-child(13) { animation-delay: 1.3s; }
 
         .section-title {
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #1a202c;
+            color: #2c3e50;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -115,6 +213,7 @@
             margin-bottom: 1.5rem;
             border-left: 4px solid #667eea;
             font-size: 1.05rem;
+            color: #2d3748;
         }
 
         .insight strong { color: #667eea; font-weight: 600; }
@@ -130,341 +229,225 @@
             margin-top: 2rem;
         }
 
-        /* Estilos do Diretório */
-        .directory-header {
-            background: linear-gradient(135deg, #f6f8fb 0%, #e9ecef 100%);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            border-left: 4px solid #667eea;
+        .participants-list {
+            columns: 3;
+            column-gap: 2rem;
+            margin-top: 1.5rem;
         }
 
-        .directory-header h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #1a202c;
-        }
-
-        .directory-header p {
-            font-size: 1.05rem;
-            color: #4a5568;
-        }
-
-        .directory-header .count {
-            color: #667eea;
-            font-weight: 700;
-        }
-
-        .filters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .filter-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #2d3748;
-        }
-
-        .filter-group select,
-        .filter-group input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-
-        .filter-group select:focus,
-        .filter-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .result-count {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .directory-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-
-        .directory-table thead {
-            background: #f7fafc;
-        }
-
-        .directory-table th {
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: #2d3748;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .directory-table td {
-            padding: 1rem;
+        .participant-name {
+            padding: 0.5rem 0;
             border-bottom: 1px solid #e2e8f0;
-            color: #4a5568;
+            break-inside: avoid;
+            font-size: 0.95rem;
+            color: #2d3748;
         }
 
-        .directory-table tbody tr:hover {
-            background: #f7fafc;
+        .footer { 
+            text-align: center; 
+            padding: 3rem 2rem; 
+            color: #718096; 
+            font-size: 0.9rem; 
+            background: white;
+            margin-top: 2rem;
         }
-
-        .linkedin-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #0077b5;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .linkedin-link:hover {
-            color: #005885;
-        }
-
-        .linkedin-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .update-time {
-            background: #667eea;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-top: 1rem;
-        }
-
-        .footer { text-align: center; padding: 3rem 2rem; color: #718096; font-size: 0.9rem; }
 
         @media (max-width: 768px) {
-            h1 { font-size: 1.8rem; }
-            .stats-bar { gap: 1.5rem; }
-            .stat-number { font-size: 2rem; }
+            .main-title { font-size: 2rem; }
+            .subtitle { font-size: 1.4rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .stat-card-number { font-size: 2.5rem; }
             .section { padding: 1.5rem; }
             .section-title { font-size: 1.4rem; }
             .grid-2 { grid-template-columns: 1fr; }
             .chart-container { height: 350px; }
-            .filters { grid-template-columns: 1fr; }
-            
-            .directory-table {
-                display: block;
-                overflow-x: auto;
-            }
+            .participants-list { columns: 1; }
+            .tags-container { gap: 0.8rem; }
+            .tag { padding: 0.6rem 1.2rem; font-size: 0.85rem; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Grupo Marcelo Murilo<br><span style="font-size: 0.8em; font-weight: 500;">Perfil dos Participantes</span></h1>
-        <p class="subtitle">Análise completa da pesquisa realizada com o grupo de conselheiros e executivos em transição</p>
-        <div class="form-callout">
-            <p>📋 Se você ainda não preencheu seu questionário de perfil e não consta destes resultados e do diretório, preencha agora!</p>
-            <a href="https://forms.gle/j9aLnbtxDWuBsW2CA" target="_blank" class="form-button">Preencher Questionário</a>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="logo-container">
+            <img src="Logo_Preto_2.png" alt="Marcelo Murilo" class="logo">
+        </div>
+        
+        <h1 class="main-title">Grupo de Discussão</h1>
+        <h2 class="subtitle">Marcelo Murilo</h2>
+        
+        <p class="description">
+            Uma comunidade exclusiva de executivos, conselheiros e líderes empresariais dedicados ao 
+            desenvolvimento em governança corporativa, estratégia e liderança. Conecte-se com 480 
+            profissionais de elite, compartilhe experiências e construa relacionamentos estratégicos que 
+            impulsionam carreiras e negócios.
+        </p>
+
+        <div class="tags-container">
+            <div class="tag">Governança Corporativa</div>
+            <div class="tag">Networking Executivo</div>
+            <div class="tag">Conselhos de Administração</div>
+            <div class="tag">Desenvolvimento de Liderança</div>
+            <div class="tag">Comunidade Premium</div>
         </div>
     </div>
 
-    <div id="loading" class="loading">Carregando dados...</div>
+    <div id="loading" class="loading">📊 Carregando dados da comunidade...</div>
 
     <div id="content" style="display: none;">
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-number" id="totalParticipantes">0</div>
-                <div class="stat-label">Respostas</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="linkedinPct">0%</div>
-                <div class="stat-label">Via LinkedIn</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="saoPauloPct">0%</div>
-                <div class="stat-label">São Paulo</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="semConselhoPct">0%</div>
-                <div class="stat-label">Ainda sem conselho</div>
-            </div>
+        <!-- Statistics Section -->
+        <div class="stats-section">
+            <h2 class="stats-title">
+                <span class="stats-icon">📊</span>
+                Estatísticas do Grupo
+            </h2>
+            <div class="stats-grid" id="statsGrid"></div>
         </div>
 
-        <div class="container" id="sections"></div>
+        <div class="container" id="chartsContainer"></div>
 
         <div class="footer">
-            <p><strong>Grupo Marcelo Murilo</strong> • Análise com dados em tempo real</p>
-            <div class="update-time" id="updateTime">Carregando...</div>
-            <p style="margin-top: 1rem; opacity: 0.7;">Dados atualizados automaticamente da planilha Google</p>
+            <p><strong>Grupo Marcelo Murilo</strong> • Comunidade de Executivos e Conselheiros</p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem;">Dados atualizados automaticamente a cada 5 minutos</p>
         </div>
     </div>
 
     <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyN-6B0G1xmAeUSCA_ACzMOzYZQ7Xe9pxp1bObwVv3rUHDNDWNQijQcd40utYx3rdXu4w/exec';
-        
-        Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
-        Chart.defaults.color = '#2d3748';
-        
+        const SHEET_ID = '1oMC_-d2X_xeaT9FHnVYj5oTCApUvLCZo1ZqwGBX5_Lg';
+        const allCharts = {};
         const chartColors = {
-            primary: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b', '#38f9d7', '#fa709a', '#fee140'],
+            primary: [
+                '#667eea', '#764ba2', '#f093fb', '#4facfe',
+                '#43e97b', '#fa709a', '#fee140', '#30cfd0'
+            ]
         };
-
-        let allCharts = {};
-        let allParticipants = [];
-
-        function countValues(data, column) {
-            const counts = {};
-            data.forEach(row => {
-                const val = row[column];
-                if (val && String(val).trim()) {
-                    counts[String(val).trim()] = (counts[String(val).trim()] || 0) + 1;
-                }
-            });
-            return counts;
-        }
-
-        function countMultipleValues(data, column, separator = ',') {
-            const counts = {};
-            data.forEach(row => {
-                const val = row[column];
-                if (val && String(val).trim()) {
-                    String(val).split(separator).forEach(item => {
-                        const trimmed = item.trim();
-                        if (trimmed) {
-                            counts[trimmed] = (counts[trimmed] || 0) + 1;
-                        }
-                    });
-                }
-            });
-            return counts;
-        }
 
         async function loadData() {
             try {
-                const response = await fetch(API_URL);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
-                const data = await response.json();
-                console.log('Dados carregados:', data.length, 'registros');
-                
-                processAllData(data);
-
+                const response = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`);
+                const text = await response.text();
+                const json = JSON.parse(text.substring(47).slice(0, -2));
+                processData(json.table);
             } catch (error) {
-                console.error('Erro:', error);
-                document.getElementById('loading').innerHTML = `
-                    <div style="color: #e53e3e;">
-                        ⚠️ Erro ao carregar dados<br>
-                        <small>${error.message}</small><br>
-                        <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem;">
-                            🔄 Tentar Novamente
-                        </button>
-                    </div>
-                `;
+                document.getElementById('loading').innerHTML = '⚠️ Erro ao carregar dados. Tentando novamente...';
+                setTimeout(loadData, 5000);
             }
         }
 
-        function processAllData(data) {
-            // Preparar dados dos participantes para o diretório
-            allParticipants = data
-                .filter(row => row['Nome completo'])
-                .map(row => ({
-                    nome: String(row['Nome completo'] || '').trim(),
-                    estado: String(row['Estado onde você reside'] || '').trim(),
-                    setores: String(row['Quais setores você conhece bem ou já atuou?'] || '').trim(),
-                    linkedin: String(row['URL do seu perfil no LinkedIn'] || '').trim()
-                }))
-                .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+        function processData(table) {
+            const data = table.rows.map(row => row.c.map(cell => cell ? cell.v : null));
+            const stats = {
+                total: data.length,
+                localizacao: {},
+                linkedinConectado: { 'Sim': 0, 'Não': 0 },
+                emTransicao: { 'Sim': 0, 'Não': 0 },
+                experiencia: {},
+                industrias: {},
+                formacao: {},
+                investimento: {},
+                satisfacao: {},
+                imersao: {},
+                precisa: {},
+                debatedor: {},
+                publica: {},
+                govFamiliar: {},
+                dias: {},
+                turno: {},
+                names: []
+            };
 
-            // Stats principais
-            document.getElementById('totalParticipantes').textContent = allParticipants.length;
+            data.forEach(row => {
+                // Estatísticas principais
+                const cidade = row[4];
+                if (cidade) stats.localizacao[cidade] = (stats.localizacao[cidade] || 0) + 1;
 
-            // Processar todos os dados
-            const conheceu = countValues(data, 'Como você conheceu este grupo de conselheiros e executivos em transição?');
-            const estados = countValues(data, 'Estado onde você reside');
-            const atuacao = countValues(data, 'Hoje, qual das opções melhor descreve sua atuação principal?');
-            const setores = countMultipleValues(data, 'Quais setores você conhece bem ou já atuou?');
-            const formacao = countValues(data, 'Você já participou de algum dos seguintes programas de formação para conselheiros?');
-            const investimento = countValues(data, 'Quanto você estima que já investiu até agora em formação específica para atuar em conselhos?');
-            const satisfacao = countValues(data, 'Qual foi seu grau de satisfação com a formação que fez no Brasil (focada em atuação como conselheiro)?');
-            const imersao = countValues(data, 'Você já participou de alguma imersão internacional voltada a conselhos, governança ou liderança?');
-            const precisa = countMultipleValues(data, 'O que você acredita que mais precisa neste momento para acelerar sua transição para conselhos?');
-            const govFamiliar = countValues(data, 'Você já atuou ou tem interesse em atuar com governança de empresas familiares?');
-            const dias = countMultipleValues(data, 'Quais dias da semana você tem mais disponibilidade para participar de encontros online com conteúdo sobre conselhos, governança e liderança?');
-            const turno = countValues(data, 'Em qual turno você prefere participar desses encontros online?');
+                const linkedin = row[5];
+                if (linkedin === 'Sim' || linkedin === 'Já estamos conectados') stats.linkedinConectado['Sim']++;
+                else if (linkedin === 'Não') stats.linkedinConectado['Não']++;
 
-            // Calcular percentuais
-            const linkedinPct = Math.round(((conheceu['LinkedIn'] || 0) / allParticipants.length) * 100);
-            const spPct = Math.round(((estados['São Paulo'] || 0) / allParticipants.length) * 100);
-            const semConselhoPct = Math.round(((atuacao['Atuo como executivo(a) e ainda não participo de conselhos'] || 0) / allParticipants.length) * 100);
+                const transicao = row[6];
+                if (transicao === 'Sim') stats.emTransicao['Sim']++;
+                else if (transicao === 'Não') stats.emTransicao['Não']++;
 
-            document.getElementById('linkedinPct').textContent = linkedinPct + '%';
-            document.getElementById('saoPauloPct').textContent = spPct + '%';
-            document.getElementById('semConselhoPct').textContent = semConselhoPct + '%';
-
-            // Criar todas as seções
-            createAllSections({
-                conheceu, estados, atuacao, setores, formacao,
-                investimento, satisfacao, imersao, precisa,
-                govFamiliar, dias, turno,
-                linkedinPct, spPct, semConselhoPct
+                // Outras estatísticas
+                if (row[7]) stats.experiencia[row[7]] = (stats.experiencia[row[7]] || 0) + 1;
+                if (row[8]) row[8].split(',').forEach(i => stats.industrias[i.trim()] = (stats.industrias[i.trim()] || 0) + 1);
+                if (row[9]) row[9].split(',').forEach(f => stats.formacao[f.trim()] = (stats.formacao[f.trim()] || 0) + 1);
+                if (row[10]) stats.investimento[row[10]] = (stats.investimento[row[10]] || 0) + 1;
+                if (row[11]) stats.satisfacao[row[11]] = (stats.satisfacao[row[11]] || 0) + 1;
+                if (row[12]) stats.imersao[row[12]] = (stats.imersao[row[12]] || 0) + 1;
+                if (row[13]) row[13].split(',').forEach(p => stats.precisa[p.trim()] = (stats.precisa[p.trim()] || 0) + 1);
+                if (row[14]) stats.debatedor[row[14]] = (stats.debatedor[row[14]] || 0) + 1;
+                if (row[15]) stats.publica[row[15]] = (stats.publica[row[15]] || 0) + 1;
+                if (row[16]) stats.govFamiliar[row[16]] = (stats.govFamiliar[row[16]] || 0) + 1;
+                if (row[17]) row[17].split(',').forEach(d => stats.dias[d.trim()] = (stats.dias[d.trim()] || 0) + 1);
+                if (row[18]) stats.turno[row[18]] = (stats.turno[row[18]] || 0) + 1;
+                if (row[1]) stats.names.push(row[1]);
             });
 
-            // Horário de atualização
-            const now = new Date().toLocaleString('pt-BR', {
-                day: '2-digit', month: 'long', year: 'numeric',
-                hour: '2-digit', minute: '2-digit'
-            });
-            document.getElementById('updateTime').textContent = `Última atualização: ${now}`;
-
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
+            stats.names.sort();
+            renderDashboard(stats);
         }
 
-        function createAllSections(stats) {
-            const container = document.getElementById('sections');
+        function renderDashboard(stats) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+
+            // Renderizar cards de estatísticas principais
+            const spCount = stats.localizacao['São Paulo'] || 0;
+            const spPercentage = Math.round((spCount / stats.total) * 100);
+            const linkedinPercentage = Math.round((stats.linkedinConectado['Sim'] / stats.total) * 100);
+            const transicaoPercentage = Math.round((stats.emTransicao['Sim'] / stats.total) * 100);
+
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-card-icon">👥</div>
+                    <div class="stat-card-number">${stats.total}</div>
+                    <div class="stat-card-label">Participantes Ativos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon">💼</div>
+                    <div class="stat-card-number">${linkedinPercentage}%</div>
+                    <div class="stat-card-label">Conectados via LinkedIn</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon">🎯</div>
+                    <div class="stat-card-number">${spPercentage}%</div>
+                    <div class="stat-card-label">Baseados em São Paulo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon">🎓</div>
+                    <div class="stat-card-number">${transicaoPercentage}%</div>
+                    <div class="stat-card-label">Em Transição para Conselhos</div>
+                </div>
+            `;
+
+            // Renderizar seções com gráficos
+            const container = document.getElementById('chartsContainer');
             container.innerHTML = '';
 
             const sections = [
                 {
-                    title: '🤝 Como conheceram o grupo',
-                    insight: `<strong>${stats.linkedinPct}% dos participantes</strong> conheceram o grupo através do LinkedIn, demonstrando a força da presença digital e do networking profissional na plataforma.`,
-                    chart: createDoughnutChart('conheceuChart', stats.conheceu)
-                },
-                {
                     title: '📍 Distribuição Geográfica',
-                    insight: `São Paulo domina com <strong>${stats.spPct}% dos participantes</strong>, seguido por outros estados estratégicos.`,
-                    chart: createBarChart('estadosChart', stats.estados, 10, 'y')
+                    insight: `A maior concentração está em <strong>São Paulo (${spPercentage}%)</strong>, seguida por outras capitais brasileiras.`,
+                    chart: createBarChart('localizacaoChart', stats.localizacao, 10, 'y')
                 },
                 {
-                    title: '💼 Atuação Profissional Atual',
-                    insight: `<strong>${stats.semConselhoPct}% são executivos que ainda não participam de conselhos</strong>, representando o maior grupo.`,
-                    chart: createBarChart('atuacaoChart', stats.atuacao, 0, 'y', true)
+                    title: '💼 Experiência Profissional',
+                    insight: `Grupo com <strong>alta senioridade e experiência executiva relevante</strong> para atuação em conselhos.`,
+                    chart: createDoughnutChart('experienciaChart', stats.experiencia),
+                    short: true
                 },
                 {
-                    title: '🏢 Setores de Conhecimento e Atuação',
-                    insight: `Os participantes demonstram expertise diversificada em múltiplos setores.`,
-                    chart: createBarChart('setoresChart', stats.setores, 10, 'y'),
-                    tall: true
+                    title: '🏭 Indústrias de Atuação',
+                    insight: `Diversidade setorial que favorece <strong>troca de experiências cross-industry</strong>.`,
+                    chart: createBarChart('industriasChart', stats.industrias, 10, 'y')
                 },
                 {
-                    title: '🎓 Programas de Formação',
-                    insight: `A variedade de formações indica a busca por conhecimento especializado.`,
+                    title: '🎓 Formações Realizadas',
+                    insight: `Participantes já investiram em formações, demonstrando comprometimento com a carreira em conselhos.`,
                     chart: createBarChart('formacaoChart', stats.formacao, 0, 'y')
                 },
                 {
@@ -474,7 +457,7 @@
                 },
                 {
                     title: '⭐ Satisfação com Formação no Brasil',
-                    insight: `Índices gerais positivos de satisfação com as formações oferecidas.`,
+                    insight: `Índices gerais positivos de satisfação com as formações oferecidas no mercado brasileiro.`,
                     chart: createDoughnutChart('satisfacaoChart', stats.satisfacao),
                     short: true
                 },
@@ -486,9 +469,20 @@
                 },
                 {
                     title: '🎯 O que mais precisam agora',
-                    insight: `<strong>Conexões e oportunidades práticas</strong> são os maiores desafios da transição.`,
+                    insight: `Além da formação, <strong>conexões e oportunidades práticas são os maiores desafios</strong> da transição.`,
                     chart: createBarChart('precisaChart', stats.precisa, 0, 'y'),
                     tall: true
+                },
+                {
+                    title: '🎤 Interesse em Participar como Especialista',
+                    insight: `Um grupo <strong>engajado e disposto a compartilhar conhecimento</strong>.`,
+                    chart: createDoughnutChart('debatedorChart', stats.debatedor),
+                    short: true
+                },
+                {
+                    title: '✍️ Publicação de Conteúdo',
+                    insight: `Grande oportunidade para programas de desenvolvimento de autoridade.`,
+                    chart: createBarChart('publicaChart', stats.publica, 0, 'y')
                 },
                 {
                     title: '👨‍👩‍👧‍👦 Interesse em Governança Familiar',
@@ -503,8 +497,9 @@
                     isGrid: true
                 },
                 {
-                    title: '👥 Diretório de Participantes',
-                    directory: true
+                    title: '👥 Lista Completa de Participantes',
+                    insight: `Total de <strong>${stats.names.length}</strong> participantes cadastrados, ordenados alfabeticamente.`,
+                    list: createParticipantsList(stats.names)
                 }
             ];
 
@@ -514,165 +509,25 @@
                 
                 let content = `
                     <h2 class="section-title"><span class="section-icon">${section.title.split(' ')[0]}</span> ${section.title.substring(section.title.indexOf(' ') + 1)}</h2>
+                    <div class="insight">${section.insight}</div>
                 `;
 
-                if (section.directory) {
-                    content += createDirectory();
+                if (section.list) {
+                    content += section.list;
+                } else if (section.isGrid) {
+                    content += section.chart;
                 } else {
-                    content += `<div class="insight">${section.insight}</div>`;
-                    
-                    if (section.isGrid) {
-                        content += section.chart;
-                    } else {
-                        const heightClass = section.tall ? 'tall' : section.short ? 'short' : '';
-                        content += `<div class="chart-container ${heightClass}"><canvas id="${section.chart.id}"></canvas></div>`;
-                    }
+                    const heightClass = section.tall ? 'tall' : section.short ? 'short' : '';
+                    content += `<div class="chart-container ${heightClass}"><canvas id="${section.chart.id}"></canvas></div>`;
                 }
 
                 div.innerHTML = content;
                 container.appendChild(div);
 
-                if (section.chart && !section.directory && !section.isGrid) {
+                if (section.chart && !section.list && !section.isGrid) {
                     setTimeout(() => section.chart.create(), 100);
-                } else if (section.directory) {
-                    setTimeout(() => initializeDirectory(), 100);
                 }
             });
-        }
-
-        function createDirectory() {
-            // Extrair estados e setores únicos
-            const estados = [...new Set(allParticipants.map(p => p.estado).filter(e => e))].sort();
-            const todosSetores = new Set();
-            allParticipants.forEach(p => {
-                p.setores.split(',').forEach(s => {
-                    const trimmed = s.trim();
-                    if (trimmed) todosSetores.add(trimmed);
-                });
-            });
-            const setores = [...todosSetores].sort();
-
-            return `
-                <div class="directory-header">
-                    <h3>👥 Diretório de Participantes</h3>
-                    <p>Conecte-se com os <span class="count">${allParticipants.length} profissionais</span> que fazem parte do Grupo Marcelo Murilo. Use os filtros abaixo para encontrar participantes por estado ou área de atuação.</p>
-                </div>
-
-                <div class="filters">
-                    <div class="filter-group">
-                        <label>Filtrar por Estado</label>
-                        <select id="filterEstado">
-                            <option value="">Todos os Estados</option>
-                            ${estados.map(e => `<option value="${e}">${e}</option>`).join('')}
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>Filtrar por Setor</label>
-                        <select id="filterSetor">
-                            <option value="">Todos os Setores</option>
-                            ${setores.map(s => `<option value="${s}">${s}</option>`).join('')}
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>Buscar por Nome</label>
-                        <input type="text" id="searchNome" placeholder="Digite o nome...">
-                    </div>
-                </div>
-
-                <div class="result-count" id="resultCount">Mostrando ${allParticipants.length} participantes</div>
-
-                <table class="directory-table">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Estado</th>
-                            <th>Setores de Conhecimento</th>
-                            <th>LinkedIn</th>
-                        </tr>
-                    </thead>
-                    <tbody id="directoryBody"></tbody>
-                </table>
-            `;
-        }
-
-        function initializeDirectory() {
-            renderDirectory(allParticipants);
-
-            document.getElementById('filterEstado').addEventListener('change', filterDirectory);
-            document.getElementById('filterSetor').addEventListener('change', filterDirectory);
-            document.getElementById('searchNome').addEventListener('input', filterDirectory);
-        }
-
-        function fixLinkedInUrl(url) {
-            if (!url) return '#';
-            
-            // Remove espaços extras
-            url = url.trim();
-            
-            // Se começa com http://, trocar por https://
-            if (url.startsWith('http://')) {
-                return url.replace('http://', 'https://');
-            }
-            
-            // Se já tem https://, retorna como está
-            if (url.startsWith('https://')) {
-                return url;
-            }
-            
-            // Se começa com www.linkedin.com ou linkedin.com, adiciona https://
-            if (url.startsWith('www.linkedin.com') || url.startsWith('linkedin.com')) {
-                return 'https://' + url;
-            }
-            
-            // Se não tem barra (é apenas um username), constrói a URL completa do LinkedIn
-            if (!url.includes('/')) {
-                return 'https://www.linkedin.com/in/' + url;
-            }
-            
-            // Caso contrário, assume que precisa do https://
-            return 'https://' + url;
-        }
-
-        function filterDirectory() {
-            const estadoFilter = document.getElementById('filterEstado').value.toLowerCase();
-            const setorFilter = document.getElementById('filterSetor').value.toLowerCase();
-            const nomeFilter = document.getElementById('searchNome').value.toLowerCase();
-
-            const filtered = allParticipants.filter(p => {
-                const matchEstado = !estadoFilter || p.estado.toLowerCase().includes(estadoFilter);
-                const matchSetor = !setorFilter || p.setores.toLowerCase().includes(setorFilter);
-                const matchNome = !nomeFilter || p.nome.toLowerCase().includes(nomeFilter);
-                
-                return matchEstado && matchSetor && matchNome;
-            });
-
-            renderDirectory(filtered);
-        }
-
-        function renderDirectory(participants) {
-            const tbody = document.getElementById('directoryBody');
-            document.getElementById('resultCount').textContent = `Mostrando ${participants.length} participantes`;
-
-            tbody.innerHTML = participants.map(p => {
-                const setoresDisplay = p.setores.split(',').slice(0, 3).join(', ');
-                const maisSetores = p.setores.split(',').length > 3 ? ` +${p.setores.split(',').length - 3}` : '';
-                
-                const linkedinLink = p.linkedin ? 
-                    `<a href="${fixLinkedInUrl(p.linkedin)}" target="_blank" class="linkedin-link">
-                        <svg class="linkedin-icon" fill="#0077b5" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                        Ver Perfil
-                    </a>` : 
-                    '-';
-
-                return `
-                    <tr>
-                        <td>${p.nome}</td>
-                        <td>${p.estado || '-'}</td>
-                        <td>${setoresDisplay}${maisSetores}</td>
-                        <td>${linkedinLink}</td>
-                    </tr>
-                `;
-            }).join('');
         }
 
         function createDoughnutChart(id, data) {
@@ -788,10 +643,11 @@
             `;
         }
 
-        // Carregar dados
+        function createParticipantsList(names) {
+            return `<div class="participants-list">${names.map(n => `<div class="participant-name">${n}</div>`).join('')}</div>`;
+        }
+
         loadData();
-        
-        // Atualizar a cada 5 minutos
         setInterval(loadData, 5 * 60 * 1000);
     </script>
 </body>
