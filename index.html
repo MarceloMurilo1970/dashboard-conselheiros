@@ -16,6 +16,38 @@
             padding: 2rem 1rem;
         }
 
+        /* Botão Voltar para Home */
+        .back-button-container {
+            max-width: 1400px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: #e8ecf0;
+            color: #2c3e50;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: #d5dae0;
+            transform: translateX(-2px);
+        }
+
+        .back-arrow {
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
         /* Header Section com Logo e Tags */
         .header {
             background: white;
@@ -433,6 +465,13 @@
     </style>
 </head>
 <body>
+    <div class="back-button-container">
+        <a href="https://grupo.marcelomurilo.com.br" class="back-button">
+            <span class="back-arrow">←</span>
+            <span>Voltar para Home</span>
+        </a>
+    </div>
+
     <div class="header">
         <div class="logo-container">
             <img src="Logo_Preto_2.png" alt="Marcelo Murilo" class="logo">
